@@ -4,6 +4,16 @@ import 'dotenv/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT || 8080);
+  const PORT = process.env.PORT || 8080;
+  await app.listen(PORT, () =>
+    console.log(`
+    ███╗░░██╗███████╗░██████╗████████╗░░░░░██╗░██████╗
+    ████╗░██║██╔════╝██╔════╝╚══██╔══╝░░░░░██║██╔════╝
+    ██╔██╗██║█████╗░░╚█████╗░░░░██║░░░░░░░░██║╚█████╗░
+    ██║╚████║██╔══╝░░░╚═══██╗░░░██║░░░██╗░░██║░╚═══██╗
+    ██║░╚███║███████╗██████╔╝░░░██║░░░╚█████╔╝██████╔╝
+    ╚═╝░░╚══╝╚══════╝╚═════╝░░░░╚═╝░░░░╚════╝░╚═════╝░
+`),
+  );
 }
 bootstrap();
