@@ -5,6 +5,7 @@ import {
   GetUserById,
   CheckEmailExists,
   AddUser,
+  RemoveUser,
 } from './user.quries';
 import { res, ok } from 'src/utils/response.helper';
 import httpStatus from 'src/utils/http.status.codes';
@@ -61,7 +62,17 @@ export class UserService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    try {
+      const user = await pool.query(GetUserById, [id]);
+      if (!user.rows.length) {
+        return res('User not found', httpStatus.NotFound);
+      }
+      await pool.query(RemoveUser, [id]);
+      return res(`User of id = ${id} has been removed`, httpStatus.Ok);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 }
